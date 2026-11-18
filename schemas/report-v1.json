@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://satonome.app/schemas/report-v1.json",
+  "title": "サトノメ標準 被害・目撃報告フォーマット v1.0",
+  "description": "鳥獣被害報告データの全国標準フォーマット。被害報告(damage_report)および目撃報告(sighting_report)に対応。",
+  "type": "object",
+  "required": [
+    "report_type",
+    "animal_code",
+    "reported_at",
+    "location"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "レポートの一意識別子"
+    },
+    "report_type": {
+      "type": "string",
+      "enum": ["damage_report", "sighting_report"],
+      "description": "レポート種別"
+    },
+    "municipality_code": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$",
+      "description": "全国地方公共団体コード（JIS X 0401/0402、6桁）"
+    },
+    "reported_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "報告日時（ISO 8601）"
+    },
+    "reporter": {
+      "type": "object",
+      "description": "報告者情報",
+      "properties": {
+        "name": { "type": "string", "description": "報告者氏名" },
+        "phone": { "type": "string", "description": "連絡先電話番号" },
+        "address": { "type": "string", "description": "報告者住所" },
+        "reporter_type": {
+          "type": "string",
+          "enum": ["resident", "farmer", "staff", "worker", "other"],
+          "description": "報告者種別"
+        }
+      }
+    },
+    "animal_code": {
+      "type": "string",
+      "description": "動物種コード。環境省鳥獣コードに準拠する拡張コード体系を使用",
+      "examples": ["M001", "M002", "M003", "M004a", "M004b", "B001"]
+    },
+    "animal_name": {
+      "type": "string",
+      "description": "動物種の日本語名（表示用）",
+      "examples": ["ニホンジカ", "イノシシ", "ニホンザル", "ツキノワグマ"]
+    },
+    "animal_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "確認頭数（不明の場合は0）"
+    },
+    "location": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "description": "位置情報（WGS84 / EPSG:4326）",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 50,
+          "description": "緯度（日本国内: 20〜50）"
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": 122,
+          "maximum": 154,
+          "description": "経度（日本国内: 122〜154）"
+        },
+        "address": {
+          "type": "string",
+          "description": "住所（字名・地番）"
+        },
+        "mesh_code": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$",
+          "description": "3次メッシュコード（環境省捕獲情報収集システム互換）"
+        }
+      }
+    },
+    "damage": {
+      "type": "object",
+      "description": "被害情報（report_type=damage_report の場合）",
+      "properties": {
+        "damage_type": {
+          "type": "string",
+          "enum": [
+            "crop_feeding", "crop_trampling", "crop_breaking", "bark_stripping",
+            "livestock_predation", "infrastructure_damage",
+            "human_injury", "property_damage", "other"
+          ],
+          "description": "被害形態"
+        },
+        "crop_type": {
+          "type": "string",
+          "enum": [
+            "rice", "wheat", "soybean", "sweet_potato", "potato",
+            "vegetables", "fruits", "feed_crops", "flowers", "other"
+          ],
+          "description": "被害農作物の品目（農水省統計分類準拠）"
+        },
+        "crop_purpose": {
+          "type": "string",
+          "enum": ["commercial", "personal"],
+          "description": "栽培目的"
+        },
+        "damage_area_sqm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "被害面積（㎡）"
+        },
+        "total_field_area_sqm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "ほ場全面積（㎡）。被害割合算出用"
+        },
+        "estimated_damage_yen": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "推定被害額（円）"
+        },
+        "damage_quantity_kg": {
+          "type": "number",
+          "minimum": 0,
+          "description": "被害量（kg）"
+        },
+        "description": {
+          "type": "string",
+          "description": "被害状況の自由記述"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "confirmed", "dispatched", "resolved", "dismissed"],
+      "description": "処理ステータス"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "format": "uri", "description": "写真URL" },
+          "photo_type": {
+            "type": "string",
+            "enum": ["overview", "close_up", "damage", "evidence", "other"],
+            "description": "写真種別"
+          },
+          "taken_at": { "type": "string", "format": "date-time", "description": "撮影日時" }
+        }
+      },
+      "description": "添付写真"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["web", "mobile_app", "phone", "paper", "line_bot", "other"],
+      "description": "報告経路"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "拡張メタデータ（自治体独自項目など）",
+      "additionalProperties": true
+    }
+  }
+}

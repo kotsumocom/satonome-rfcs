@@ -1,0 +1,49 @@
+{
+  "report_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+  "report_type": "capture_report",
+  "municipality_code": "432148",
+  "reported_at": "2026-11-16T14:00:00+09:00",
+  "occurred_at": "2026-11-16T06:30:00+09:00",
+  "reporter": {
+    "name": "佐藤次郎",
+    "affiliation": "球磨猟友会あさぎり支部"
+  },
+  "animal_code": "DEER",
+  "animal_count": 1,
+  "sex": "male",
+  "age_class": "adult",
+  "location": {
+    "latitude": 32.2156,
+    "longitude": 130.8632,
+    "address": "球磨郡あさぎり町上南字鬼塚",
+    "mesh_code": "49310255"
+  },
+  "capture": {
+    "permit_number": "熊本第2026-0145号",
+    "capture_method": "leg_trap",
+    "trap_detail": "くくりわな（12cm径、ワイヤー4mm）",
+    "estimated_weight_kg": 65.0,
+    "disposition": "gibier",
+    "hunter_count": 2,
+    "bleeding_done": true,
+    "evisceration_done": true
+  },
+  "photos": [
+    {
+      "url": "https://example.com/photos/capture-001-trap.jpg",
+      "photo_type": "trap",
+      "taken_at": "2026-11-16T06:45:00+09:00"
+    },
+    {
+      "url": "https://example.com/photos/capture-001-carcass.jpg",
+      "photo_type": "carcass",
+      "taken_at": "2026-11-16T07:00:00+09:00"
+    }
+  ],
+  "status": "confirmed",
+  "source": "mobile_app",
+  "metadata": {
+    "satonome_version": "1.0.0",
+    "processing_facility": "球磨ジビエ処理施設"
+  }
+}

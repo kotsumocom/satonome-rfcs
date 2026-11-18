@@ -1,0 +1,49 @@
+{
+  "report_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "report_type": "damage_report",
+  "municipality_code": "432148",
+  "reported_at": "2026-11-15T09:30:00+09:00",
+  "reporter": {
+    "name": "山田太郎",
+    "phone": "0966-XX-XXXX",
+    "address": "熊本県球磨郡あさぎり町深田",
+    "reporter_type": "farmer"
+  },
+  "animal_code": "BOAR",
+  "animal_name": "イノシシ",
+  "animal_count": 2,
+  "location": {
+    "latitude": 32.2234,
+    "longitude": 130.8745,
+    "address": "球磨郡あさぎり町深田字上無田",
+    "mesh_code": "49310256"
+  },
+  "damage": {
+    "damage_type": "crop_feeding",
+    "crop_type": "rice",
+    "crop_purpose": "commercial",
+    "damage_area_sqm": 1500,
+    "total_field_area_sqm": 5000,
+    "estimated_damage_yen": 180000,
+    "damage_quantity_kg": 450,
+    "description": "水田の稲を約30%食害。足跡・掘り返し痕跡あり。2頭の成獣を目撃。"
+  },
+  "status": "confirmed",
+  "photos": [
+    {
+      "url": "https://example.com/photos/report-001-overview.jpg",
+      "photo_type": "overview",
+      "taken_at": "2026-11-15T07:15:00+09:00"
+    },
+    {
+      "url": "https://example.com/photos/report-001-damage.jpg",
+      "photo_type": "damage",
+      "taken_at": "2026-11-15T07:18:00+09:00"
+    }
+  ],
+  "source": "mobile_app",
+  "metadata": {
+    "satonome_version": "1.0.0",
+    "device": "iPhone 15"
+  }
+}

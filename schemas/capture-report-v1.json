@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://satonome.app/schemas/capture-report-v1.json",
+  "title": "サトノメ標準 捕獲報告フォーマット v1.0",
+  "description": "鳥獣捕獲報告データの標準フォーマット。capture_report に対応。",
+  "type": "object",
+  "required": [
+    "report_type",
+    "animal_code",
+    "reported_at",
+    "location",
+    "capture"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "レポートの一意識別子"
+    },
+    "report_type": {
+      "type": "string",
+      "const": "capture_report",
+      "description": "レポート種別（固定値）"
+    },
+    "municipality_code": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$",
+      "description": "全国地方公共団体コード（JIS X 0402、6桁）"
+    },
+    "reported_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "報告日時（ISO 8601）"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "捕獲日時（ISO 8601）"
+    },
+    "reporter": {
+      "type": "object",
+      "description": "報告者情報",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "報告者氏名"
+        },
+        "affiliation": {
+          "type": "string",
+          "description": "所属（猟友会名等）"
+        }
+      }
+    },
+    "animal_code": {
+      "type": "string",
+      "pattern": "^[A-Z]{4}$",
+      "description": "動物種コード（4文字短縮コード）",
+      "examples": [
+        "DEER",
+        "BOAR",
+        "MONK",
+        "BRBR"
+      ]
+    },
+    "animal_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "捕獲頭数"
+    },
+    "sex": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "unknown"
+      ],
+      "description": "性別"
+    },
+    "age_class": {
+      "type": "string",
+      "enum": [
+        "adult",
+        "juvenile",
+        "unknown"
+      ],
+      "description": "齢区分"
+    },
+    "location": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "description": "捕獲位置（WGS84）",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 50,
+          "description": "緯度"
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": 122,
+          "maximum": 154,
+          "description": "経度"
+        },
+        "address": {
+          "type": "string",
+          "description": "住所"
+        },
+        "mesh_code": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$",
+          "description": "3次メッシュコード"
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "required": [
+        "permit_number",
+        "capture_method",
+        "disposition"
+      ],
+      "description": "捕獲固有情報",
+      "properties": {
+        "permit_number": {
+          "type": "string",
+          "description": "捕獲許可番号"
+        },
+        "capture_method": {
+          "type": "string",
+          "enum": [
+            "gun",
+            "box_trap",
+            "leg_trap",
+            "net",
+            "other"
+          ],
+          "description": "捕獲方法"
+        },
+        "trap_detail": {
+          "type": "string",
+          "description": "猟具詳細"
+        },
+        "estimated_weight_kg": {
+          "type": "number",
+          "minimum": 0,
+          "description": "推定体重（kg）"
+        },
+        "individual_id": {
+          "type": "string",
+          "description": "個体識別番号"
+        },
+        "disposition": {
+          "type": "string",
+          "enum": [
+            "incineration",
+            "burial",
+            "gibier",
+            "release",
+            "other"
+          ],
+          "description": "処分方法"
+        },
+        "hunter_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "捕獲者ID"
+        },
+        "hunter_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "出猟者数"
+        },
+        "bleeding_done": {
+          "type": "boolean",
+          "description": "放血実施"
+        },
+        "evisceration_done": {
+          "type": "boolean",
+          "description": "内臓摘出実施"
+        }
+      }
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "photo_type": {
+            "type": "string",
+            "enum": [
+              "carcass",
+              "trap",
+              "evidence",
+              "other"
+            ]
+          },
+          "taken_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "添付写真"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "resolved"
+      ],
+      "description": "処理ステータス"
+    },
+    "source": {
+      "type": "string",
+      "description": "データ出所"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "拡張メタデータ",
+      "additionalProperties": true
+    }
+  }
+}

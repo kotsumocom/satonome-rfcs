@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://satonome.app/schemas/worker-profile-v1.json",
+  "title": "サトノメ ワーカープロフィール v1.0",
+  "description": "鳥獣害対策従事者のプロフィールデータ。RFC-003で定義されたスペシャリティを含む。",
+  "type": "object",
+  "required": [
+    "worker_id",
+    "display_name"
+  ],
+  "properties": {
+    "worker_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ワーカーの一意識別子"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "表示名"
+    },
+    "municipality_code": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$",
+      "description": "所属自治体コード"
+    },
+    "license_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "first_class_gun",
+          "second_class_gun",
+          "trap",
+          "net"
+        ]
+      },
+      "description": "狩猟免許の種類"
+    },
+    "gun_permits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "shotgun",
+          "rifle",
+          "air_gun"
+        ]
+      },
+      "description": "銃砲所持許可の種類"
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "certified_capture_operator",
+          "damage_control_team_member",
+          "wildlife_manager_1",
+          "wildlife_manager_2",
+          "wildlife_manager_3",
+          "ict_trap_operation",
+          "night_hunting",
+          "gibier_processing",
+          "electric_fence",
+          "wire_mesh_fence",
+          "drone_operation",
+          "gis_mapping",
+          "large_animal_handling",
+          "bird_control",
+          "box_trap_fabrication",
+          "safety_training",
+          "first_aid"
+        ]
+      },
+      "description": "専門スキルタグ（RFC-003定義）"
+    },
+    "target_animals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{4}$"
+      },
+      "description": "対象動物種コード（RFC-001準拠）"
+    },
+    "service_areas": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{6}$"
+      },
+      "description": "活動可能エリア（自治体コード配列）"
+    },
+    "experience_years": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "従事経験年数"
+    },
+    "bio": {
+      "type": "string",
+      "description": "自己紹介"
+    },
+    "organizations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hunting_club",
+              "certified_business",
+              "npo",
+              "other"
+            ]
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "所属組織"
+    }
+  }
+}
